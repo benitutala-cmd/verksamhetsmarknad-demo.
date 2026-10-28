@@ -1,1 +1,486 @@
 
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verksamhetsmarknaden – Köp och sälj företag</title>
+<meta name="description" content="Upptäck företag till salu. Jämför omsättning, vinst och driftskostnader.">
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--text:#18212b;--muted:#687382;--line:#e3e7ec;--green:#176b50;--green2:#e8f5ef;--dark:#10251f;--gold:#d7a94a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Arial,Helvetica,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.nav{max-width:1200px;margin:auto;padding:15px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:19px;font-weight:800;letter-spacing:-.7px;color:var(--dark)}
+.brand span{color:var(--green)}
+.navlinks{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--line);border-radius:9px;padding:10px 14px;background:#fff;color:var(--text);font-weight:700}
+.btn:hover{filter:brightness(.97)}
+.btn.primary{background:var(--green);border-color:var(--green);color:white}
+.btn.dark{background:var(--dark);border-color:var(--dark);color:#fff}
+.btn.small{padding:7px 10px;font-size:13px}
+main{max-width:1200px;margin:auto;padding:25px 22px 65px}
+.hero{background:var(--dark);color:#fff;border-radius:18px;padding:46px 38px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:300px;height:300px;border:1px solid #45675a;border-radius:50%;right:-80px;top:-120px;box-shadow:0 0 0 35px #ffffff05,0 0 0 70px #ffffff05}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#a9d6c2;font-weight:800}
+h1{font-size:clamp(30px,5vw,51px);line-height:1.1;letter-spacing:-1.7px;max-width:700px;margin:13px 0}
+.hero p{color:#c9d7d1;max-width:600px;font-size:16px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.hero .btn:not(.primary){background:transparent;color:white;border-color:#64786f}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 32px}
+.stat,.panel,.listing,.price-card{background:var(--card);border:1px solid var(--line);border-radius:13px}
+.stat{padding:18px}
+.stat strong{font-size:24px;display:block}
+.stat span,.muted{color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin:32px 0 16px}
+h2{font-size:25px;letter-spacing:-.6px;margin:0}
+h3{margin:0 0 8px}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin:15px 0 22px}
+input,select,textarea{width:100%;border:1px solid #dce1e7;border-radius:8px;padding:11px 12px;background:#fff;color:var(--text)}
+textarea{min-height:100px;resize:vertical}
+label{font-size:12px;font-weight:800;letter-spacing:.3px;display:block;margin-bottom:6px}
+.field{min-width:0}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.listing{overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.cover{height:185px;background:#e3eae5;position:relative;overflow:hidden}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.cover .category-label{position:absolute;left:12px;top:12px;background:#fffdf2eF;padding:5px 9px;border-radius:6px;font-size:12px;font-weight:800}
+.listing-body{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.listing h3{font-size:18px;line-height:1.3}
+.location{color:var(--muted);font-size:13px}
+.price{font-size:22px;font-weight:800;color:var(--green)}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.fact{background:#f6f8f7;padding:10px;border-radius:8px}
+.fact span{font-size:11px;color:var(--muted);display:block}
+.fact strong{font-size:14px;overflow-wrap:anywhere}
+.card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.empty{grid-column:1/-1;text-align:center;padding:35px;background:#fff;border:1px dashed #ccd5ce;border-radius:12px;color:var(--muted)}
+.panel{padding:22px;margin-top:24px}
+.category-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chip{border:1px solid var(--line);border-radius:30px;padding:8px 12px;background:white}
+.chip.active{background:var(--green2);border-color:#b6d9c8;color:var(--green);font-weight:800}
+.prices{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:15px}
+.price-card{padding:19px}
+.price-card.featured{border:2px solid var(--green)}
+.price-card .amount{font-size:28px;font-weight:800;margin:10px 0}
+.price-card ul{padding-left:18px;color:var(--muted);font-size:13px;min-height:75px}
+.badge{display:inline-block;border-radius:5px;padding:4px 7px;background:var(--green2);color:var(--green);font-size:11px;font-weight:800}
+.badge.gold{background:#fff2d7;color:#8c651b}
+footer{background:var(--dark);color:white;padding:30px 22px}
+.footer-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+footer p{color:#b7c8c0;font-size:13px;max-width:600px}
+footer button{background:none;border:0;color:#d3e4dc;text-decoration:underline;padding:5px}
+.modal{display:none;position:fixed;inset:0;background:#101c18a8;z-index:20;padding:20px;overflow:auto;align-items:flex-start;justify-content:center}
+.modal.open{display:flex}
+.modal-box{background:#fff;border-radius:14px;width:min(720px,100%);padding:23px;margin:auto;box-shadow:0 15px 60px #0002}
+.modal-top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:18px}
+.close{font-size:23px;border:0;background:none}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.full{grid-column:1/-1}
+.form-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.notice{background:#f6f8f7;border:1px solid var(--line);border-radius:9px;padding:12px;font-size:13px;color:var(--muted)}
+.detail-hero{width:100%;height:240px;object-fit:cover;border-radius:10px}
+.detail-section{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.detail-description{white-space:pre-wrap;overflow-wrap:anywhere}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--dark);color:white;padding:12px 18px;border-radius:10px;z-index:40;display:none;max-width:90%;text-align:center}
+.toast.show{display:block}
+.hidden{display:none!important}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.prices{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:1fr 1fr}.filters input{grid-column:1/-1}}
+@media(max-width:600px){.nav{align-items:flex-start;flex-direction:column}.navlinks{width:100%}.navlinks .btn{flex:1}.hero{padding:30px 22px}.stats{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.prices{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.filters{grid-template-columns:1fr}.filters input{grid-column:auto}.cover{height:200px}main{padding:18px 14px 45px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="brand">VERKSAMHETS<span>MARKNADEN</span></div>
+    <nav class="navlinks">
+      <button class="btn small" onclick="scrollToSection('annonser')">Utforska företag</button>
+      <button class="btn small" onclick="showPrices()">Priser</button>
+      <button class="btn small" onclick="openLogin()">Logga in</button>
+      <button class="btn primary small" onclick="newListing()">Sälj ett företag</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">En marknadsplats för företagare</div>
+    <h1>Rätt företag.<br>Rätt nästa steg.</h1>
+    <p>Upptäck verksamheter till salu, jämför ekonomiska nyckeltal och hitta möjligheten som passar dig.</p>
+    <div class="hero-actions">
+      <button class="btn primary" onclick="scrollToSection('annonser')">Utforska företag</button>
+      <button class="btn" onclick="newListing()">Lägg upp en annons</button>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><strong id="statListings">0</strong><span>Publicerade annonser</span></div>
+    <div class="stat"><strong id="statCategories">0</strong><span>Olika kategorier</span></div>
+    <div class="stat"><strong>0 kr</strong><span>För att börja med Basic</span></div>
+  </div>
+
+  <section id="annonser">
+    <div class="section-head">
+      <div><div class="eyebrow" style="color:var(--green)">Marknadsplatsen</div><h2>Företag till salu</h2></div>
+      <button class="btn primary" onclick="newListing()">+ Skapa annons</button>
+    </div>
+    <div class="category-row" id="categoryChips"></div>
+    <div class="filters">
+      <input id="search" placeholder="Sök företag, ort eller kategori..." oninput="renderListings()">
+      <select id="categoryFilter" onchange="renderListings()"><option value="">Alla kategorier</option></select>
+      <select id="sortFilter" onchange="renderListings()">
+        <option value="new">Senaste annonser</option>
+        <option value="low">Lägsta pris</option>
+        <option value="high">Högsta pris</option>
+        <option value="profit">Högsta angivna vinst</option>
+      </select>
+      <button class="btn" onclick="clearFilters()">Rensa filter</button>
+    </div>
+    <div class="grid" id="listingGrid"></div>
+  </section>
+
+  <section class="panel" id="priser">
+    <div class="eyebrow" style="color:var(--green)">Enkla paket</div>
+    <h2>Välj din annonsnivå</h2>
+    <p class="muted">Priserna nedan är exempel för prototypen. Ingen betalning tas faktiskt emot.</p>
+    <div class="prices">
+      <div class="price-card"><h3>Basic</h3><div class="amount">0 kr</div><p class="muted">För att komma igång.</p><ul><li>Grundläggande annons</li><li>Kontakt via intresseanmälan</li></ul><button class="btn" onclick="choosePlan('Basic')">Välj Basic</button></div>
+      <div class="price-card"><h3>Standard</h3><div class="amount">69 kr</div><p class="muted">För fler möjligheter.</p><ul><li>Annons med bilder</li><li>Ekonomiska nyckeltal</li></ul><button class="btn" onclick="choosePlan('Standard')">Välj Standard</button></div>
+      <div class="price-card featured"><span class="badge">Populärt</span><h3 style="margin-top:10px">Premium</h3><div class="amount">149 kr</div><p class="muted">För en mer framträdande annons.</p><ul><li>Premium-markering</li><li>Mer synlighet i prototypen</li></ul><button class="btn primary" onclick="choosePlan('Premium')">Välj Premium</button></div>
+      <div class="price-card"><span class="badge gold">Utvald</span><h3 style="margin-top:10px">Utvald</h3><div class="amount">249 kr</div><p class="muted">För extra exponering.</p><ul><li>Utvald-markering</li><li>Visas först i prototypen</li></ul><button class="btn" onclick="choosePlan('Utvald')">Välj Utvald</button></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Så fungerar det</h2>
+    <div class="grid" style="margin-top:16px">
+      <div><span class="badge">01</span><h3 style="margin-top:10px">Upptäck</h3><p class="muted">Sök bland verksamheter och jämför pris, omsättning och vinst.</p></div>
+      <div><span class="badge">02</span><h3 style="margin-top:10px">Jämför</h3><p class="muted">Läs beskrivningen och granska de ekonomiska uppgifter säljaren lämnat.</p></div>
+      <div><span class="badge">03</span><h3 style="margin-top:10px">Ta kontakt</h3><p class="muted">Skicka en intresseanmälan via annonsens kontaktformulär.</p></div>
+    </div>
+  </section>
+
+  <section class="panel" id="mina">
+    <div class="section-head" style="margin-top:0"><div><h2>Mina annonser</h2><p class="muted">Annonser som skapats i den här webbläsaren.</p></div><button class="btn" onclick="openLogin()">Byt demoanvändare</button></div>
+    <div id="myListings" class="grid"></div>
+  </section>
+
+  <section class="panel" id="admin">
+    <div class="section-head" style="margin-top:0"><div><h2>Administratör</h2><p class="muted">En enkel demonstrationsvy för annonser och rapporter.</p></div><button class="btn" onclick="adminLogin()">Öppna admin</button></div>
+    <div id="adminContent" class="muted">Administratörsvyn är låst.</div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="brand" style="color:#fff">VERKSAMHETS<span>MARKNADEN</span></div><p>En prototyp för köp och försäljning av verksamheter. Ekonomiska uppgifter ska alltid kontrolleras innan ett företagsköp.</p></div>
+    <div>
+      <button onclick="showInfo('Om oss','Verksamhetsmarknaden är en prototyp för att göra det enklare att hitta och presentera företag till salu.')">Om oss</button>
+      <button onclick="showInfo('Integritet','Den här prototypen sparar information lokalt i din webbläsare. Publicera inte riktiga personuppgifter eller konfidentiell företagsinformation här.')">Integritet</button>
+      <button onclick="showInfo('Villkor','Detta är en demo. Inga riktiga köp, betalningar eller verifieringar genomförs. Ekonomiska uppgifter är säljarens egna uppgifter och kan vara felaktiga.')">Villkor</button>
+      <button onclick="showInfo('Kontakt','Kontaktfunktioner är demonstrationsfunktioner. En riktig tjänst behöver ett fungerande kontaktflöde och en integritetssäker hantering av personuppgifter.')">Kontakt</button>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <div class="modal-top"><h2 id="modalTitle">Detaljer</h2><button class="close" aria-label="Stäng" onclick="closeModal()">×</button></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const CATEGORIES=[
+ "Restaurang & pizzeria","Café & bageri","Butik & detaljhandel",
+ "E-handel & onlineföretag","Webbutik","IT & digitala tjänster",
+ "Frisör & skönhet","Bilverkstad & fordon","Gym & hälsa",
+ "Bygg & hantverk","Städ & service","Hotell & boende",
+ "Transport & logistik","Konsultverksamhet","Annat"
+];
+const PLANS={Basic:0,Standard:69,Premium:149,Utvald:249};
+const STORAGE_KEY="vm_market_v3";
+const USER_KEY="vm_user_v3";
+let currentUser=localStorage.getItem(USER_KEY)||"Demo-säljare";
+let activeCategory="";
+let editingId=null;
+let chosenPlan="Basic";
+let toastTimer=null;
+
+function uid(){return "vm_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8)}
+function money(v){return Number(v||0).toLocaleString("sv-SE",{maximumFractionDigits:0})+" kr"}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function safeImage(url){
+ if(!url)return "";
+ if(url.startsWith("data:image/")||/^https:\/\/[^\s"'<>]+$/i.test(url))return url;
+ return "";
+}
+function getListings(){
+ try{const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");return Array.isArray(v)?v:[]}
+ catch(e){return []}
+}
+function saveAll(items){localStorage.setItem(STORAGE_KEY,JSON.stringify(items))}
+function toast(msg){
+ const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");
+ clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),3000);
+}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+function showModal(title,html){
+ document.getElementById("modalTitle").textContent=title;
+ document.getElementById("modalBody").innerHTML=html;
+ document.getElementById("modal").classList.add("open");
+}
+function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:"smooth"})}
+function showPrices(){scrollToSection("priser")}
+function showInfo(title,text){showModal(title,`<p>${esc(text)}</p><button class="btn primary" onclick="closeModal()">Stäng</button>`)}
+function categoryImage(cat){
+ const queries={
+  "Restaurang & pizzeria":"restaurant interior",
+  "Café & bageri":"coffee shop interior",
+  "Butik & detaljhandel":"retail shop interior",
+  "E-handel & onlineföretag":"warehouse ecommerce packing",
+  "Webbutik":"online business warehouse",
+  "IT & digitala tjänster":"modern computer office",
+  "Frisör & skönhet":"hair salon interior",
+  "Bilverkstad & fordon":"car workshop",
+  "Gym & hälsa":"modern fitness gym",
+  "Bygg & hantverk":"construction tools",
+  "Hotell & boende":"boutique hotel interior",
+  "Transport & logistik":"delivery warehouse",
+  "Konsultverksamhet":"modern office meeting"
+ };
+ const q=queries[cat]||"small business shop";
+ return "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1000&q=80";
+}
+function seedIfEmpty(){
+ if(getListings().length)return;
+ const samples=[
+ {title:"Välbesökt kvartersrestaurang",cat:"Restaurang & pizzeria",city:"Stockholm",price:1250000,revenue:2800000,profit:420000,costs:150000,costDetails:"Hyra, personal, råvaror, försäkring och el.",desc:"Exempelannons för en restaurang med sittplatser och etablerad kundkrets. Kontrollera alltid hyresavtal, bokföring och tillstånd.",owner:"Demo-säljare",plan:"Premium",status:"active",image:"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80"},
+ {title:"Webbutik inom heminredning",cat:"E-handel & onlineföretag",city:"Göteborg",price:495000,revenue:1150000,profit:185000,costs:24000,costDetails:"Lager, annonser, e-handelsplattform, frakt och betalavgifter.",desc:"Exempel på en webbutik med produktlager och digital försäljning. Uppgifter är fiktiva och ska inte betraktas som verkliga nyckeltal.",owner:"Demo-säljare",plan:"Utvald",status:"active",image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=80"},
+ {title:"Frisörsalong med återkommande kunder",cat:"Frisör & skönhet",city:"Malmö",price:350000,revenue:840000,profit:140000,costs:18000,costDetails:"Lokalhyra, produkter, försäkring och bokningssystem.",desc:"Exempelannons. Överlåtelse av lokal och utrustning måste kontrolleras separat.",owner:"Demo-säljare",plan:"Standard",status:"active",image:"https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1000&q=80"},
+ {title:"Liten IT- och konsultverksamhet",cat:"IT & digitala tjänster",city:"Uppsala",price:690000,revenue:1250000,profit:310000,costs:9000,costDetails:"Programvaror, molntjänster, försäkring och marknadsföring.",desc:"Fiktivt digitalt företag. Kundavtal och beroende av nuvarande ägare behöver utredas.",owner:"Demo-säljare",plan:"Basic",status:"active",image:"https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=80"},
+ {title:"Bilverkstad med utrustning",cat:"Bilverkstad & fordon",city:"Örebro",price:980000,revenue:2100000,profit:260000,costs:48000,costDetails:"Lokal, utrustning, försäkring, personal och förbrukningsmaterial.",desc:"Fiktiv verkstadsannons. Kontrollera utrustning, miljökrav och hyresavtal.",owner:"Demo-säljare",plan:"Standard",status:"active",image:"https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1000&q=80"},
+ {title:"Café nära centrum",cat:"Café & bageri",city:"Linköping",price:425000,revenue:970000,profit:105000,costs:33000,costDetails:"Hyra, personal, råvaror, el och kassasystem.",desc:"Fiktivt café med servering. Uppgifterna är exempeldata.",owner:"Demo-säljare",plan:"Basic",status:"active",image:"https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1000&q=80"}
+ ];
+ saveAll(samples.map(x=>({...x,id:uid(),created:Date.now(),interests:[],reports:[]})));
+}
+function initFilters(){
+ const opts=CATEGORIES.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
+ document.getElementById("categoryFilter").innerHTML='<option value="">Alla kategorier</option>'+opts;
+ document.getElementById("categoryChips").innerHTML=
+ `<button class="chip active" onclick="setCategory('')">Alla</button>`+
+ CATEGORIES.map(c=>`<button class="chip" onclick="setCategory('${esc(c)}')">${esc(c)}</button>`).join("");
+}
+function setCategory(cat){
+ activeCategory=cat;document.getElementById("categoryFilter").value=cat;
+ document.querySelectorAll(".chip").forEach(b=>b.classList.toggle("active",b.textContent===(cat||"Alla")));
+ renderListings();scrollToSection("annonser");
+}
+function clearFilters(){
+ document.getElementById("search").value="";
+ document.getElementById("categoryFilter").value="";
+ document.getElementById("sortFilter").value="new";activeCategory="";
+ document.querySelectorAll(".chip").forEach((b,i)=>b.classList.toggle("active",i===0));
+ renderListings();
+}
+function listingCard(a,ownerMode=false){
+ const img=safeImage(a.image)||categoryImage(a.cat);
+ const tag=a.plan==="Utvald"?'<span class="badge gold">Utvald</span>':a.plan==="Premium"?'<span class="badge">Premium</span>':"";
+ const status=a.status==="paused"?'<span class="badge gold">Pausad</span>':"";
+ return `<article class="listing">
+ <div class="cover"><img src="${esc(img)}" alt="${esc(a.title)}" loading="lazy" onerror="this.src='${categoryImage(a.cat)}'"><span class="category-label">${esc(a.cat)}</span></div>
+ <div class="listing-body">
+ <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">${tag}${status}</div>
+ <h3>${esc(a.title)}</h3><div class="location">⌖ ${esc(a.city)}</div>
+ <div class="price">${money(a.price)}</div>
+ <div class="facts">
+ <div class="fact"><span>Omsättning / 12 mån</span><strong>${a.revenue==null?"Ej angiven":money(a.revenue)}</strong></div>
+ <div class="fact"><span>Vinst / 12 mån</span><strong>${a.profit==null?"Ej angiven":money(a.profit)}</strong></div>
+ </div>
+ <div class="card-actions">
+ <button class="btn primary small" onclick="viewListing('${a.id}')">Visa företag</button>
+ ${ownerMode?`<button class="btn small" onclick="editListing('${a.id}')">Redigera</button><button class="btn small" onclick="togglePause('${a.id}')">${a.status==="paused"?"Publicera":"Pausa"}</button><button class="btn small" onclick="deleteListing('${a.id}')">Ta bort</button>`:`<button class="btn small" onclick="reportListing('${a.id}')">Rapportera</button>`}
+ </div>
+ </div></article>`;
+}
+function renderListings(){
+ const query=document.getElementById("search").value.toLowerCase().trim();
+ const cat=document.getElementById("categoryFilter").value||activeCategory;
+ let items=getListings().filter(a=>a.status==="active"&&(!cat||a.cat===cat)&&(!query||`${a.title} ${a.city} ${a.cat} ${a.desc}`.toLowerCase().includes(query)));
+ const sort=document.getElementById("sortFilter").value;
+ if(sort==="low")items.sort((a,b)=>a.price-b.price);
+ if(sort==="high")items.sort((a,b)=>b.price-a.price);
+ if(sort==="profit")items.sort((a,b)=>(b.profit??-Infinity)-(a.profit??-Infinity));
+ if(sort==="new")items.sort((a,b)=>(b.created||0)-(a.created||0));
+ items.sort((a,b)=>(b.plan==="Utvald")-(a.plan==="Utvald"));
+ document.getElementById("listingGrid").innerHTML=items.length?items.map(a=>listingCard(a)).join(""):'<div class="empty">Inga företag matchar din sökning. Prova en annan kategori eller sökterm.</div>';
+ document.getElementById("statListings").textContent=getListings().filter(a=>a.status==="active").length;
+ document.getElementById("statCategories").textContent=new Set(getListings().filter(a=>a.status==="active").map(a=>a.cat)).size;
+ renderMyListings();
+}
+function renderMyListings(){
+ const items=getListings().filter(a=>a.owner===currentUser);
+ document.getElementById("myListings").innerHTML=items.length?items.map(a=>listingCard(a,true)).join(""):'<div class="empty">Du har inga annonser ännu. Klicka på ”Skapa annons” för att börja.</div>';
+}
+function viewListing(id){
+ const a=getListings().find(x=>x.id===id);if(!a)return;
+ const img=safeImage(a.image)||categoryImage(a.cat);
+ showModal(a.title,`
+ <img class="detail-hero" src="${esc(img)}" alt="${esc(a.title)}">
+ <p class="location">${esc(a.cat)} · ${esc(a.city)}</p>
+ <div class="price">${money(a.price)}</div>
+ <div class="detail-section"><h3>Ekonomiska nyckeltal</h3><div class="facts">
+ <div class="fact"><span>Omsättning senaste 12 månaderna</span><strong>${a.revenue==null?"Ej angiven":money(a.revenue)}</strong></div>
+ <div class="fact"><span>Vinst senaste 12 månaderna</span><strong>${a.profit==null?"Ej angiven":money(a.profit)}</strong></div>
+ <div class="fact"><span>Månatliga driftskostnader</span><strong>${a.costs==null?"Ej angiven":money(a.costs)}</strong></div>
+ <div class="fact"><span>Annonsnivå</span><strong>${esc(a.plan||"Basic")}</strong></div></div>
+ <p><strong>Vad ingår i kostnaderna?</strong><br>${esc(a.costDetails||"Ej angivet")}</p></div>
+ <div class="detail-section"><h3>Om verksamheten</h3><div class="detail-description">${esc(a.desc||"Ingen beskrivning angiven.")}</div></div>
+ <p class="notice">Ekonomiska uppgifter är säljarens egna uppgifter och inte verifierade. Begär bokföring, deklarationer och andra underlag innan du fattar beslut.</p>
+ <div class="form-actions"><button class="btn primary" onclick="interestForm('${a.id}')">Visa intresse</button><button class="btn" onclick="closeModal()">Stäng</button></div>`);
+}
+function interestForm(id){
+ const a=getListings().find(x=>x.id===id);if(!a)return;
+ showModal("Intresseanmälan",`<p>Du är intresserad av <strong>${esc(a.title)}</strong>.</p>
+ <form onsubmit="submitInterest(event,'${a.id}')"><div class="form-grid">
+ <div class="field"><label>Ditt namn</label><input id="iName" required maxlength="100" placeholder="För- och efternamn"></div>
+ <div class="field"><label>E-post</label><input id="iEmail" required type="email" maxlength="150" placeholder="namn@exempel.se"></div>
+ <div class="field full"><label>Meddelande</label><textarea id="iMessage" maxlength="2000" placeholder="Berätta kort om ditt intresse"></textarea></div>
+ </div><p class="notice">Demo: uppgifterna sparas endast lokalt i den här webbläsaren. De skickas inte till säljaren.</p>
+ <div class="form-actions"><button class="btn primary">Skicka demoanmälan</button></div></form>`);
+}
+function submitInterest(e,id){
+ e.preventDefault();const a=getListings().find(x=>x.id===id);if(!a)return;
+ a.interests=a.interests||[];
+ a.interests.push({name:document.getElementById("iName").value,email:document.getElementById("iEmail").value,message:document.getElementById("iMessage").value,date:new Date().toISOString()});
+ saveAll(getListings().map(x=>x.id===id?a:x));closeModal();toast("Demoanmälan sparad i den här webbläsaren.");
+}
+function reportListing(id){
+ const reason=prompt("Varför vill du rapportera annonsen?");
+ if(!reason)return;
+ const items=getListings();const a=items.find(x=>x.id===id);if(!a)return;
+ a.reports=a.reports||[];a.reports.push({reason:reason.slice(0,500),date:new Date().toISOString()});
+ saveAll(items);toast("Demo-rapport sparad.");
+}
+function newListing(){editingId=null;chosenPlan="Basic";openListingForm()}
+function editListing(id){
+ const a=getListings().find(x=>x.id===id);if(!a||a.owner!==currentUser){toast("Du kan bara redigera dina egna annonser.");return}
+ editingId=id;chosenPlan=a.plan||"Basic";openListingForm(a);
+}
+function openListingForm(a={}){
+ const categories=CATEGORIES.map(c=>`<option ${a.cat===c?"selected":""} value="${esc(c)}">${esc(c)}</option>`).join("");
+ showModal(editingId?"Redigera annons":"Skapa företagsannons",`
+ <form onsubmit="saveListing(event)">
+ <div class="form-grid">
+ <div class="field full"><label>FÖRETAGETS NAMN *</label><input id="lTitle" required maxlength="120" value="${esc(a.title||"")}" placeholder="Exempel: Webbutik inom heminredning"></div>
+ <div class="field"><label>KATEGORI *</label><select id="lCat" required>${categories}</select></div>
+ <div class="field"><label>ORT *</label><input id="lCity" required maxlength="100" value="${esc(a.city||"")}" placeholder="Exempel: Stockholm"></div>
+ <div class="field"><label>BEGÄRT PRIS (KR) *</label><input id="lPrice" required type="number" min="0" step="1" value="${a.price??""}" placeholder="495000"></div>
+ <div class="field"><label>OMSÄTTNING SENASTE 12 MÅN (KR)</label><input id="lRevenue" type="number" min="0" step="1" value="${a.revenue??""}" placeholder="850000"></div>
+ <div class="field"><label>VINST SENASTE 12 MÅN (KR)</label><input id="lProfit" type="number" step="1" value="${a.profit??""}" placeholder="125000"></div>
+ <div class="field"><label>MÅNATLIGA DRIFTSKOSTNADER (KR)</label><input id="lCosts" type="number" min="0" step="1" value="${a.costs??""}" placeholder="12000"></div>
+ <div class="field full"><label>VAD INGÅR I KOSTNADERNA?</label><textarea id="lCostDetails" maxlength="3000" placeholder="Hyra, lager, annonser, plattformar, personal...">${esc(a.costDetails||"")}</textarea></div>
+ <div class="field full"><label>BESKRIVNING *</label><textarea id="lDesc" required maxlength="5000" placeholder="Beskriv verksamheten, kunder, läge och vad som ingår.">${esc(a.desc||"")}</textarea></div>
+ <div class="field full"><label>BILD PÅ FÖRETAGET</label><input id="lImageFile" type="file" accept="image/*" onchange="previewImage(event)"><div class="muted" style="font-size:12px;margin-top:5px">Välj en bild från din enhet. Använd en liten bild för att hålla lagringsutrymmet nere.</div><img id="imagePreview" class="${a.image?"":"hidden"}" src="${esc(safeImage(a.image))}" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-top:10px" alt="Förhandsvisning"><input id="lImage" type="hidden" value="${esc(a.image||"")}"></div>
+ <div class="field full"><label>ANNONSNIVÅ</label><select id="lPlan" onchange="planChanged()">${Object.keys(PLANS).map(p=>`<option value="${p}" ${chosenPlan===p?"selected":""}>${p} – ${PLANS[p]} kr (demo)</option>`).join("")}</select><div id="planNotice" class="muted" style="font-size:12px;margin-top:5px">Ingen betalning genomförs.</div></div>
+ </div>
+ <p class="notice">Publicera bara information du har rätt att dela. Ekonomiska uppgifter är säljarens ansvar och måste verifieras separat. Den här prototypen har ingen säker databas.</p>
+ <div class="form-actions"><button class="btn primary">${editingId?"Spara ändringar":"Spara annons"}</button><button type="button" class="btn" onclick="closeModal()">Avbryt</button></div>
+ </form>`);
+}
+function planChanged(){
+ const p=document.getElementById("lPlan").value;
+ document.getElementById("planNotice").textContent=p==="Basic"?"Basic kostar 0 kr.":`Demo: ${p} visas som ${PLANS[p]} kr, men betalning tas inte emot.`;
+}
+function previewImage(e){
+ const file=e.target.files&&e.target.files[0];if(!file)return;
+ if(!file.type.startsWith("image/")){toast("Välj en bildfil.");e.target.value="";return}
+ if(file.size>900000){toast("Bilden är för stor. Välj en bild under 900 KB.");e.target.value="";return}
+ const reader=new FileReader();
+ reader.onload=()=>{document.getElementById("lImage").value=reader.result;const im=document.getElementById("imagePreview");im.src=reader.result;im.classList.remove("hidden")};
+ reader.readAsDataURL(file);
+}
+function saveListing(e){
+ e.preventDefault();
+ const price=Number(document.getElementById("lPrice").value);
+ const revenue=document.getElementById("lRevenue").value;
+ const profit=document.getElementById("lProfit").value;
+ const costs=document.getElementById("lCosts").value;
+ if(!Number.isFinite(price)||price<0){toast("Ange ett giltigt pris.");return}
+ if(revenue!==""&&Number(revenue)<0||costs!==""&&Number(costs)<0){toast("Omsättning och kostnader får inte vara negativa.");return}
+ const items=getListings();
+ const old=items.find(x=>x.id===editingId);
+ if(editingId&&(!old||old.owner!==currentUser)){toast("Du kan inte ändra den annonsen.");return}
+ const a={
+  ...(old||{}),id:editingId||uid(),
+  title:document.getElementById("lTitle").value.trim(),
+  cat:document.getElementById("lCat").value,
+  city:document.getElementById("lCity").value.trim(),
+  price, revenue:revenue===""?null:Number(revenue),
+  profit:profit===""?null:Number(profit),
+  costs:costs===""?null:Number(costs),
+  costDetails:document.getElementById("lCostDetails").value.trim(),
+  desc:document.getElementById("lDesc").value.trim(),
+  image:document.getElementById("lImage").value,
+  plan:document.getElementById("lPlan").value,
+  owner:old?old.owner:currentUser,
+  status:old?old.status:"active",
+  created:old?old.created:Date.now(),
+  interests:old?(old.interests||[]):[],
+  reports:old?(old.reports||[]):[]
+ };
+ if(old)saveAll(items.map(x=>x.id===old.id?a:x));else saveAll([a,...items]);
+ closeModal();renderListings();toast("Annonsen sparades i den här webbläsaren.");
+}
+function togglePause(id){
+ const items=getListings();const a=items.find(x=>x.id===id);if(!a||a.owner!==currentUser)return;
+ a.status=a.status==="paused"?"active":"paused";saveAll(items);renderListings();toast(a.status==="paused"?"Annonsen pausades.":"Annonsen publicerades i prototypen.");
+}
+function deleteListing(id){
+ const a=getListings().find(x=>x.id===id);if(!a||a.owner!==currentUser)return;
+ if(!confirm("Vill du ta bort annonsen?"))return;
+ saveAll(getListings().filter(x=>x.id!==id));renderListings();toast("Annonsen togs bort.");
+}
+function openLogin(){
+ showModal("Demo-inloggning",`<p class="muted">Välj ett namn för att testa säljarvyn. Detta är inte ett riktigt konto och ingen lösenordsinloggning finns i prototypen.</p>
+ <form onsubmit="loginDemo(event)"><div class="field"><label>DEMOANVÄNDARE</label><input id="loginName" required maxlength="80" value="${esc(currentUser)}" placeholder="Ditt namn"></div><div class="form-actions"><button class="btn primary">Fortsätt</button></div></form>
+ <p class="notice">Alla demoanvändare använder samma lokala webbläsarlagring. Det är inte en säker inloggning.</p>`);
+}
+function loginDemo(e){
+ e.preventDefault();currentUser=document.getElementById("loginName").value.trim();
+ localStorage.setItem(USER_KEY,currentUser);closeModal();renderListings();toast("Demoanvändare vald: "+currentUser);
+}
+function choosePlan(plan){
+ chosenPlan=plan;
+ showModal("Välj "+plan,`<h3>${plan} – ${PLANS[plan]} kr</h3><p>Detta är en demonstration. Inga pengar dras och ingen Stripe-betalning genomförs.</p><p class="notice">I en riktig version måste priset kontrolleras på servern och betalningen bekräftas av Stripe innan en betald annons aktiveras.</p><div class="form-actions"><button class="btn primary" onclick="closeModal();newListingWithPlan('${plan}')">Skapa annons med ${plan}</button><button class="btn" onclick="closeModal()">Avbryt</button></div>`);
+}
+function newListingWithPlan(plan){editingId=null;chosenPlan=plan;openListingForm()}
+function adminLogin(){
+ showModal("Administratör – demo",`<p>Detta är en förenklad demo och inte en säker administratörsinloggning.</p><form onsubmit="openAdmin(event)"><div class="field"><label>DEMOKOD</label><input id="adminPass" type="password" placeholder="Skriv demo123" required></div><div class="form-actions"><button class="btn primary">Öppna admin</button></div></form>`);
+}
+function openAdmin(e){
+ e.preventDefault();if(document.getElementById("adminPass").value!=="demo123"){toast("Fel demokod. Tips: demo123");return}
+ closeModal();const items=getListings();
+ document.getElementById("adminContent").innerHTML=`<p><strong>${items.length}</strong> annonser totalt.</p>`+(items.length?items.map(a=>`<div style="border-top:1px solid var(--line);padding:12px 0"><strong>${esc(a.title)}</strong><div class="muted">${esc(a.city)} · ${esc(a.owner)} · ${esc(a.status)}</div><div>${(a.reports||[]).length} rapport(er) · ${(a.interests||[]).length} intresseanmälan/or</div><div class="card-actions"><button class="btn small" onclick="viewListing('${a.id}')">Visa</button><button class="btn small" onclick="adminRemove('${a.id}')">Ta bort annons</button></div></div>`).join(""):'<p>Inga annonser.</p>')+'<p class="notice">Adminvyn är endast till för lokal demonstration. Använd inte denna kod för att hantera riktiga användare eller betalningar.</p>';
+ document.getElementById("adminContent").scrollIntoView({behavior:"smooth",block:"center"});
+}
+function adminRemove(id){
+ if(!confirm("Ta bort denna annons från prototypen?"))return;
+ saveAll(getListings().filter(x=>x.id!==id));renderListings();openAdminAfterDelete();
+}
+function openAdminAfterDelete(){
+ const items=getListings();
+ document.getElementById("adminContent").innerHTML=`<p><strong>${items.length}</strong> annonser totalt.</p>`+items.map(a=>`<div style="padding:10px 0;border-top:1px solid var(--line)"><strong>${esc(a.title)}</strong> · ${esc(a.status)} <button class="btn small" onclick="adminRemove('${a.id}')">Ta bort</button></div>`).join("");
+}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+seedIfEmpty();initFilters();renderListings();
+</script>
+</body>
+</html>
+
