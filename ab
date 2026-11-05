@@ -1,0 +1,1348 @@
+
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verksamhetsmarknaden</title>
+
+<style>
+:root {
+  --navy:#10263d;
+  --green:#087d68;
+  --light:#f4f7f9;
+  --white:#fff;
+  --text:#172c40;
+  --muted:#687989;
+  --border:#dce4ea;
+  --red:#d73546;
+  --gold:#c39945;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--light);
+  color:var(--text);
+}
+button,input,select,textarea {font:inherit}
+button {cursor:pointer}
+header {
+  background:white;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+nav {
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:15px;
+}
+.logo {
+  font-size:21px;
+  font-weight:800;
+  margin-right:auto;
+}
+.logo span {color:var(--green)}
+nav button {
+  border:0;
+  background:transparent;
+  padding:10px;
+  border-radius:8px;
+  font-weight:bold;
+}
+nav button:hover {background:#eaf2f0}
+nav .live-link {color:var(--red)}
+main {
+  max-width:1200px;
+  margin:auto;
+  padding:20px 16px 80px;
+}
+section {margin-bottom:32px}
+h1 {font-size:clamp(28px,4vw,44px)}
+h2 {font-size:25px}
+p {line-height:1.6}
+.hero {
+  background:linear-gradient(120deg,#10263d,#175d61);
+  color:white;
+  padding:50px 30px;
+  border-radius:18px;
+}
+.hero p {max-width:650px;color:#d9e7ec}
+.btn {
+  background:var(--green);
+  color:white;
+  border:0;
+  padding:12px 17px;
+  border-radius:9px;
+  font-weight:bold;
+}
+.btn:hover {filter:brightness(.94)}
+.btn.secondary {
+  background:#e9eff2;
+  color:var(--text);
+}
+.btn.red {background:var(--red)}
+.btn:disabled {opacity:.5;cursor:not-allowed}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+.card,.panel {
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  overflow:hidden;
+}
+.panel {padding:22px;margin-bottom:18px}
+.card img {
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  background:#dce5e9;
+}
+.card-body {padding:18px}
+.card h3 {margin:8px 0}
+.price {font-size:23px;font-weight:800}
+.muted {color:var(--muted)}
+.small {font-size:13px}
+.badge {
+  display:inline-block;
+  padding:5px 10px;
+  background:#edf1f5;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+}
+.badge.live {background:#ffe6ea;color:#b72234}
+.badge.gold {background:#fff1d3;color:#956a1e}
+.row {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.between {justify-content:space-between}
+.field {margin-bottom:15px}
+.field label {
+  display:block;
+  margin-bottom:6px;
+  font-weight:bold;
+}
+.field input,.field select,.field textarea {
+  width:100%;
+  padding:12px;
+  border:1px solid #cbd5df;
+  border-radius:9px;
+}
+.field textarea {min-height:100px}
+.two {
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:20px;
+}
+.notice {
+  background:#fff3d6;
+  color:#795700;
+  padding:14px;
+  border-radius:10px;
+  margin:15px 0;
+}
+.ad {
+  border:2px dashed #a8b7c3;
+  padding:25px;
+  text-align:center;
+  border-radius:12px;
+  background:#eef4f7;
+}
+.bid-row {
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  padding:11px 0;
+  gap:12px;
+}
+.avatar {
+  width:85px;
+  height:85px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#dfeae8;
+}
+.hidden {display:none}
+footer {
+  text-align:center;
+  padding:30px;
+  color:var(--muted);
+  border-top:1px solid var(--border);
+}
+@media(max-width:850px) {
+  .grid {grid-template-columns:repeat(2,1fr)}
+  .two {grid-template-columns:1fr}
+}
+@media(max-width:550px) {
+  .grid {grid-template-columns:1fr}
+  .logo {width:100%}
+  nav {gap:3px}
+  nav button {font-size:12px;padding:8px}
+  .hero {padding:30px 20px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 1. NAVIGERING -->
+<header>
+<nav>
+  <div class="logo">
+    Verksamhets<span>marknaden</span>
+  </div>
+  <button onclick="showPage('home')">Hem</button>
+  <button onclick="showPage('explore')">Utforska</button>
+  <button class="live-link" onclick="showPage('live')">
+    🔴 LIVE
+  </button>
+  <button onclick="showPage('sell')">Sälj företag</button>
+  <button onclick="showPage('academy')">Säljarakademin</button>
+  <button onclick="showPage('plans')">Priser</button>
+  <button onclick="showPage('account')">Mitt konto</button>
+</nav>
+</header>
+
+<main id="app"></main>
+
+<footer>
+  Verksamhetsmarknaden © 2026
+  <p class="small">
+    Demoversion. Inga riktiga bud, konton eller betalningar.
+  </p>
+</footer>
+
+<script>
+"use strict";
+
+/* =====================================
+   2. GRUNDINSTÄLLNINGAR
+   ===================================== */
+
+const STORAGE_KEY = "verksamhetsmarknaden_v1";
+const DAY = 86400000;
+const HOUR = 3600000;
+const initialTime = Date.now();
+
+const defaultListings = [
+  {
+    id:"demo1",
+    title:"Populärt café i Stockholm",
+    category:"Café",
+    city:"Stockholm",
+    price:790000,
+    description:"Etablerat café med återkommande kunder.",
+    image:"https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900",
+    plan:"ultimate",
+    auction:true,
+    start:initialTime-HOUR,
+    end:initialTime+5*HOUR,
+    step:10000,
+    bids:[
+      {name:"NPC Demo 1",amount:800000},
+      {name:"NPC Demo 2",amount:810000}
+    ]
+  },
+  {
+    id:"demo2",
+    title:"Bilverkstad i Norrköping",
+    category:"Bilverkstad",
+    city:"Norrköping",
+    price:1250000,
+    description:"Välutrustad verkstad med etablerad kundkrets.",
+    image:"https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=900",
+    plan:"gold",
+    auction:true,
+    start:initialTime-2*HOUR,
+    end:initialTime+2*DAY,
+    step:20000,
+    bids:[
+      {name:"NPC Demo 3",amount:1270000}
+    ]
+  },
+  {
+    id:"demo3",
+    title:"Gatukök i Linköping",
+    category:"Restaurang",
+    city:"Linköping",
+    price:350000,
+    description:"Färdig verksamhet med utrustning och bra läge.",
+    image:"https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900",
+    plan:"ultimate",
+    auction:true,
+    start:initialTime+DAY,
+    end:initialTime+3*DAY,
+    step:5000,
+    bids:[]
+  },
+  {
+    id:"demo4",
+    title:"E-handel inom heminredning",
+    category:"E-handel",
+    city:"Göteborg",
+    price:480000,
+    description:"Etablerad webbutik med leverantörskontakter.",
+    image:"https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=900",
+    plan:"free",
+    auction:false,
+    bids:[]
+  }
+];
+
+function initialState() {
+  return {
+    listings:JSON.parse(JSON.stringify(defaultListings)),
+    profile:{name:"Demoanvändare",image:""},
+    applications:{},
+    favorites:[],
+    lessons:[],
+    npcEnabled:true
+  };
+}
+
+function loadState() {
+  try {
+    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(saved && Array.isArray(saved.listings)) {
+      return saved;
+    }
+  } catch(error) {
+    console.warn("Kunde inte läsa demodata",error);
+  }
+  return initialState();
+}
+
+let state=loadState();
+let currentPage="home";
+let selectedListing=null;
+let editingId=null;
+let liveFilter="all";
+
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  } catch(error) {
+    alert("Kunde inte spara. Kontrollera webbläsarens lagringsutrymme.");
+  }
+}
+
+function escapeHTML(value) {
+  return String(value??"").replace(/[&<>"']/g,char=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[char]));
+}
+
+function money(value) {
+  return new Intl.NumberFormat("sv-SE",{
+    style:"currency",
+    currency:"SEK",
+    maximumFractionDigits:0
+  }).format(value||0);
+}
+
+function formatDate(value) {
+  return new Date(value).toLocaleString("sv-SE",{
+    dateStyle:"medium",
+    timeStyle:"short"
+  });
+}
+
+function remaining(end) {
+  const seconds=Math.max(0,Math.floor((end-Date.now())/1000));
+  const days=Math.floor(seconds/86400);
+  const hours=Math.floor((seconds%86400)/3600);
+  const minutes=Math.floor((seconds%3600)/60);
+  const secs=seconds%60;
+
+  if(days>0) return days+" dagar "+hours+" tim "+minutes+" min";
+
+  return [hours,minutes,secs]
+    .map(n=>String(n).padStart(2,"0"))
+    .join(":");
+}
+
+function statusOf(item) {
+  if(!item.auction) return "ordinary";
+  if(Date.now()<item.start) return "upcoming";
+  if(Date.now()>=item.end) return "ended";
+  return "live";
+}
+
+function highestBid(item) {
+  return Math.max(
+    item.price,
+    ...(item.bids||[]).map(b=>b.amount)
+  );
+}
+
+function findListing(id) {
+  return state.listings.find(x=>x.id===id);
+}
+
+function showPage(page) {
+  currentPage=page;
+  render();
+  window.scrollTo(0,0);
+}
+
+function openListing(id) {
+  selectedListing=id;
+  showPage("detail");
+}
+
+function imageOf(item) {
+  return item.image||
+    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900";
+}
+
+/* =====================================
+   3. ANNONS-KOMPONENT
+   ===================================== */
+
+function listingCard(item) {
+  const status=statusOf(item);
+  const label=status==="live"
+    ?'<span class="badge live">● LIVE · DEMO</span>'
+    :status==="upcoming"
+    ?'<span class="badge">Kommande auktion</span>'
+    :status==="ended"
+    ?'<span class="badge">Avslutad</span>'
+    :'<span class="badge">Till salu</span>';
+
+  return `
+    <article class="card">
+      <img src="${escapeHTML(imageOf(item))}"
+           alt="Illustrationsbild"
+           loading="lazy">
+      <div class="card-body">
+        <div class="row between">
+          ${label}
+          <button class="btn secondary"
+            onclick="toggleFavorite('${item.id}')">
+            ${state.favorites.includes(item.id)?"♥":"♡"}
+          </button>
+        </div>
+        <h3>${escapeHTML(item.title)}</h3>
+        <p class="muted">
+          ${escapeHTML(item.city)} · ${escapeHTML(item.category)}
+        </p>
+        <div class="price">
+          ${money(item.auction?highestBid(item):item.price)}
+        </div>
+        <p class="small muted">
+          ${item.auction?"Aktuellt demobud / utgångspris":"Begärt pris"}
+        </p>
+        ${status==="live"
+          ?`<p>⏱ ${remaining(item.end)} kvar</p>`
+          :status==="upcoming"
+          ?`<p>Startar ${formatDate(item.start)}</p>`
+          :""}
+        <button class="btn" onclick="openListing('${item.id}')">
+          ${item.auction?"Visa auktion":"Visa företag"}
+        </button>
+      </div>
+    </article>
+  `;
+}
+
+function toggleFavorite(id) {
+  if(state.favorites.includes(id)) {
+    state.favorites=state.favorites.filter(x=>x!==id);
+  } else {
+    state.favorites.push(id);
+  }
+  save();
+  render();
+}
+
+/* =====================================
+   4. STARTSIDA
+   ===================================== */
+
+function homePage() {
+  const featured=state.listings.slice(0,3);
+
+  return `
+    <section class="hero">
+      <h1>Sälj ditt företag utan mäklare.</h1>
+      <p>
+        En enklare väg till nästa affär.
+        Annonsera din verksamhet, hitta köpare
+        och hantera försäljningen på dina villkor.
+        Ingen provision på försäljningspriset.
+      </p>
+      <div class="row">
+        <button class="btn" onclick="showPage('sell')">
+          Sälj ditt företag
+        </button>
+        <button class="btn secondary" onclick="showPage('explore')">
+          Utforska företag
+        </button>
+      </div>
+    </section>
+
+    <div class="notice">
+      🧪 Detta är en interaktiv demo.
+      Företagen och NPC-budgivarna är simulerade.
+      Inga verkliga affärer genomförs.
+    </div>
+
+    <section>
+      <div class="row between">
+        <h2>Utvalda verksamheter</h2>
+        <button class="btn secondary"
+          onclick="showPage('explore')">Visa alla</button>
+      </div>
+      <div class="grid">
+        ${featured.map(listingCard).join("")}
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Varför Verksamhetsmarknaden?</h2>
+      <div class="grid">
+        <div>
+          <h3>0 % provision</h3>
+          <p>Vi tar ingen andel av din försäljning.</p>
+        </div>
+        <div>
+          <h3>Sälj själv</h3>
+          <p>Skapa annons och kontakta köpare direkt.</p>
+        </div>
+        <div>
+          <h3>Gratis utbildning</h3>
+          <p>Lär dig försäljningsprocessen steg för steg.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ad">
+      <strong>Annonsplats</strong>
+      <p>
+        Framtida samarbeten med banker,
+        finansieringsbolag och företagstjänster.
+      </p>
+      <span class="badge">Reklam · Demo</span>
+    </section>
+
+    <section class="panel">
+      <h2>Vill du sälja utan traditionell mäklare?</h2>
+      <p>
+        Börja med vår kostnadsfria säljarakademi.
+        Lär dig förbereda en företagsförsäljning.
+      </p>
+      <button class="btn" onclick="showPage('academy')">
+        Börja lära dig
+      </button>
+    </section>
+  `;
+}
+
+/* =====================================
+   5. UTFORSKA FÖRETAG
+   ===================================== */
+
+function explorePage() {
+  return `
+    <h1>Företag till salu</h1>
+    <p class="muted">
+      Utforska verksamheter inom alla branscher.
+    </p>
+
+    <div class="panel">
+      <div class="field">
+        <label>Sök företag, bransch eller stad</label>
+        <input id="searchInput"
+          placeholder="Exempel: restaurang Stockholm"
+          oninput="filterListings()">
+      </div>
+    </div>
+
+    <div class="grid" id="searchResults">
+      ${state.listings.map(listingCard).join("")}
+    </div>
+  `;
+}
+
+function filterListings() {
+  const query=document.getElementById("searchInput")
+    .value.toLowerCase();
+
+  const results=state.listings.filter(item=>
+    [item.title,item.category,item.city,item.description]
+      .join(" ").toLowerCase().includes(query)
+  );
+
+  document.getElementById("searchResults").innerHTML=
+    results.length
+      ?results.map(listingCard).join("")
+      :"<p>Inga företag hittades.</p>";
+}
+
+/* =====================================
+   6. LIVE-AUKTIONER
+   ===================================== */
+
+function livePage() {
+  const auctions=state.listings.filter(x=>x.auction);
+
+  const filtered=auctions.filter(x=>
+    liveFilter==="all" || statusOf(x)===liveFilter
+  );
+
+  return `
+    <h1>🔴 LIVE-auktioner</h1>
+    <p class="muted">
+      Följ auktioner i realtid i vår interaktiva demo.
+    </p>
+
+    <div class="notice">
+      Alla bud här är simulerade.
+      NPC-budgivare representerar inte riktiga personer.
+    </div>
+
+    <div class="row" style="margin-bottom:20px">
+      <button class="btn ${liveFilter!=="all"?"secondary":""}"
+        onclick="setLiveFilter('all')">Alla</button>
+      <button class="btn ${liveFilter!=="live"?"secondary":""}"
+        onclick="setLiveFilter('live')">Pågående</button>
+      <button class="btn ${liveFilter!=="upcoming"?"secondary":""}"
+        onclick="setLiveFilter('upcoming')">Kommande</button>
+      <button class="btn ${liveFilter!=="ended"?"secondary":""}"
+        onclick="setLiveFilter('ended')">Avslutade</button>
+    </div>
+
+    <div class="grid">
+      ${filtered.length
+        ?filtered.map(listingCard).join("")
+        :'<div class="panel">Inga auktioner i denna kategori.</div>'}
+    </div>
+  `;
+}
+
+function setLiveFilter(value) {
+  liveFilter=value;
+  render();
+}
+
+/* =====================================
+   7. DETALJSIDA OCH BUD
+   ===================================== */
+
+function detailPage() {
+  const item=findListing(selectedListing);
+  if(!item) return "<h2>Annonsen hittades inte.</h2>";
+
+  const status=statusOf(item);
+  const approved=state.applications[item.id]==="approved";
+  const minimum=highestBid(item)+(item.step||1000);
+
+  return `
+    <button class="btn secondary" onclick="showPage('explore')">
+      ← Tillbaka
+    </button>
+
+    <h1>${escapeHTML(item.title)}</h1>
+    <p class="muted">
+      ${escapeHTML(item.city)} · ${escapeHTML(item.category)}
+    </p>
+
+    <div class="two">
+      <div>
+        <div class="card">
+          <img src="${escapeHTML(imageOf(item))}"
+            alt="Företagsbild"
+            style="height:340px">
+          <div class="card-body">
+            <h2>Om verksamheten</h2>
+            <p>${escapeHTML(item.description)}</p>
+            <p><strong>Annons:</strong>
+              ${escapeHTML(item.plan.toUpperCase())}
+            </p>
+          </div>
+        </div>
+
+        ${item.auction?`
+          <div class="panel">
+            <h2>Budhistorik · Demo</h2>
+            ${(item.bids||[]).length
+              ?[...item.bids].reverse().map(b=>`
+                <div class="bid-row">
+                  <span>${escapeHTML(b.name)}</span>
+                  <strong>${money(b.amount)}</strong>
+                </div>
+              `).join("")
+              :"<p>Inga demobud ännu.</p>"}
+          </div>
+        `:""}
+      </div>
+
+      <div>
+        <div class="panel">
+          <span class="badge ${status==="live"?"live":""}">
+            ${status==="live"?"● LIVE · DEMO":
+              status==="upcoming"?"Kommande auktion":
+              status==="ended"?"Avslutad":"Till salu"}
+          </span>
+
+          <h2>${money(item.auction?highestBid(item):item.price)}</h2>
+          <p class="muted">
+            ${item.auction?"Aktuellt demobud / utgångspris":"Begärt pris"}
+          </p>
+
+          ${item.auction?`
+            <p>Start: ${formatDate(item.start)}</p>
+            <p>Slut: ${formatDate(item.end)}</p>
+            <p>Minsta budhöjning: ${money(item.step)}</p>
+            <h3>
+              ${status==="live"
+                ?"Tid kvar: <span id='countdown'>"+remaining(item.end)+"</span>"
+                :status==="upcoming"?"Auktionen har inte startat"
+                :"Auktionen är avslutad"}
+            </h3>
+
+            ${status!=="ended" && !approved?`
+              <button class="btn" onclick="applyToAuction('${item.id}')">
+                Ansök om att delta
+              </button>
+            `:""}
+
+            ${status==="live" && approved?`
+              <div class="field">
+                <label>Ditt simulerade bud</label>
+                <input type="number" id="bidInput"
+                  min="${minimum}" step="1"
+                  value="${minimum}">
+              </div>
+              <button class="btn red"
+                onclick="placeBid('${item.id}')">
+                Lägg demobud
+              </button>
+            `:""}
+
+            ${approved?`
+              <p class="small">✓ Godkänd demobudgivare</p>
+            `:""}
+
+          `:`
+            <button class="btn" onclick="contactSeller()">
+              Kontakta säljaren
+            </button>
+          `}
+        </div>
+
+        <div class="notice">
+          Inga riktiga betalningar eller bindande
+          företagsöverlåtelser sker i demon.
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function applyToAuction(id) {
+  const item=findListing(id);
+  if(!item || statusOf(item)==="ended") return;
+
+  const confirmed=confirm(
+    "DEMO: I den riktiga tjänsten krävs godkännande "+
+    "och lämplig verifiering. Vill du bli automatiskt "+
+    "godkänd som testbudgivare?"
+  );
+
+  if(!confirmed) return;
+
+  state.applications[id]="approved";
+  save();
+  render();
+}
+
+function placeBid(id) {
+  const item=findListing(id);
+  if(!item || statusOf(item)!=="live") return;
+  if(state.applications[id]!=="approved") return;
+
+  const amount=Number(document.getElementById("bidInput").value);
+  const minimum=highestBid(item)+(item.step||1000);
+
+  if(!Number.isSafeInteger(amount) || amount<minimum) {
+    alert("Minsta tillåtna demobud är "+money(minimum));
+    return;
+  }
+
+  if(!confirm("Bekräfta demobud på "+money(amount)+"?")) return;
+
+  item.bids.push({
+    name:state.profile.name+" (du · demo)",
+    amount:amount,
+    at:Date.now()
+  });
+
+  save();
+  render();
+}
+
+function contactSeller() {
+  alert("Detta är en demo. Ingen riktig förfrågan skickas.");
+}
+
+/* =====================================
+   8. NPC-BUDGIVARE
+   ===================================== */
+
+function npcTick() {
+  if(!state.npcEnabled) return;
+
+  const active=state.listings.filter(item=>
+    item.id.startsWith("demo") &&
+    statusOf(item)==="live"
+  );
+
+  if(!active.length) return;
+  if(Math.random()>0.45) return;
+
+  const item=active[Math.floor(Math.random()*active.length)];
+
+  const amount=highestBid(item)+(item.step||5000);
+
+  item.bids.push({
+    name:"NPC Demo "+(1+Math.floor(Math.random()*8)),
+    amount:amount,
+    at:Date.now()
+  });
+
+  save();
+
+  if(["home","live","detail"].includes(currentPage)) {
+    render();
+  }
+}
+
+/* =====================================
+   9. SKAPA OCH REDIGERA ANNONS
+   ===================================== */
+
+function sellPage() {
+  const old=editingId?findListing(editingId):null;
+
+  return `
+    <h1>${old?"Redigera annons":"Sälj ditt företag"}</h1>
+    <p class="muted">
+      Skapa en annons steg för steg.
+      All information sparas lokalt i demon.
+    </p>
+
+    <div class="panel">
+      <form id="listingForm" onsubmit="saveListing(event)">
+        <div class="field">
+          <label>Företagets namn eller annonstitel</label>
+          <input name="title" required maxlength="100"
+            value="${escapeHTML(old?.title||"")}">
+        </div>
+
+        <div class="field">
+          <label>Bransch</label>
+          <input name="category" required
+            placeholder="Restaurang, bygg, e-handel..."
+            value="${escapeHTML(old?.category||"")}">
+        </div>
+
+        <div class="field">
+          <label>Stad</label>
+          <input name="city" required
+            value="${escapeHTML(old?.city||"")}">
+        </div>
+
+        <div class="field">
+          <label>Begärt pris (kr)</label>
+          <input type="number" name="price" min="1" required
+            value="${old?.price||""}">
+        </div>
+
+        <div class="field">
+          <label>Beskrivning</label>
+          <textarea name="description" required>${escapeHTML(old?.description||"")}</textarea>
+        </div>
+
+        <div class="field">
+          <label>Bildadress (https://...)</label>
+          <input name="image" type="url"
+            value="${escapeHTML(old?.image||"")}">
+        </div>
+
+        <div class="field">
+          <label>Annonspaket</label>
+          <select name="plan" id="planSelect">
+            <option value="free" ${old?.plan==="free"?"selected":""}>Gratis</option>
+            <option value="standard" ${old?.plan==="standard"?"selected":""}>Standard</option>
+            <option value="gold" ${old?.plan==="gold"?"selected":""}>Gold</option>
+            <option value="ultimate" ${old?.plan==="ultimate"?"selected":""}>Ultimate</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Försäljningsmetod</label>
+          <select name="mode" id="saleMode" onchange="toggleAuctionFields()">
+            <option value="ordinary" ${!old?.auction?"selected":""}>Vanlig annons</option>
+            <option value="auction" ${old?.auction?"selected":""}>LIVE-auktion (demo)</option>
+          </select>
+        </div>
+
+        <div id="auctionFields" class="hidden">
+          <div class="field">
+            <label>Auktionen startar</label>
+            <input type="datetime-local" name="start"
+              value="${old?.start?toLocalInput(old.start):""}">
+          </div>
+          <div class="field">
+            <label>Auktionen avslutas</label>
+            <input type="datetime-local" name="end"
+              value="${old?.end?toLocalInput(old.end):""}">
+          </div>
+          <div class="field">
+            <label>Minsta budhöjning (kr)</label>
+            <input type="number" name="step" min="100"
+              value="${old?.step||1000}">
+          </div>
+        </div>
+
+        <button class="btn" type="submit">
+          ${old?"Spara ändringar":"Publicera demoannons"}
+        </button>
+      </form>
+    </div>
+  `;
+}
+
+function toLocalInput(time) {
+  const date=new Date(time);
+  const offset=date.getTimezoneOffset()*60000;
+  return new Date(time-offset).toISOString().slice(0,16);
+}
+
+function toggleAuctionFields() {
+  const auction=document.getElementById("saleMode").value==="auction";
+  document.getElementById("auctionFields")
+    .classList.toggle("hidden",!auction);
+}
+
+function saveListing(event) {
+  event.preventDefault();
+
+  const form=new FormData(event.target);
+  const auction=form.get("mode")==="auction";
+  const plan=form.get("plan");
+  const price=Number(form.get("price"));
+  const step=Number(form.get("step"));
+  const start=new Date(form.get("start")).getTime();
+  const end=new Date(form.get("end")).getTime();
+
+  if(!Number.isSafeInteger(price)||price<=0) {
+    alert("Ange ett giltigt pris.");
+    return;
+  }
+
+  if(auction && !["gold","ultimate"].includes(plan)) {
+    alert("Välj Gold eller Ultimate för demoauktion.");
+    return;
+  }
+
+  if(auction && (
+    !Number.isFinite(start) ||
+    !Number.isFinite(end) ||
+    end<=start ||
+    end<=Date.now() ||
+    step<100
+  )) {
+    alert("Kontrollera auktionens datum och budhöjning.");
+    return;
+  }
+
+  const old=editingId?findListing(editingId):null;
+
+  if(old?.bids?.length && (
+    old.price!==price ||
+    old.auction!==auction ||
+    old.start!==start ||
+    old.end!==end ||
+    old.step!==step
+  )) {
+    alert("Grundvillkoren kan inte ändras efter att demobud lagts.");
+    return;
+  }
+
+  const item={
+    id:old?.id||"user_"+Date.now(),
+    owner:"me",
+    title:String(form.get("title")).trim(),
+    category:String(form.get("category")).trim(),
+    city:String(form.get("city")).trim(),
+    price:price,
+    description:String(form.get("description")).trim(),
+    image:String(form.get("image")).trim(),
+    plan:plan,
+    auction:auction,
+    start:auction?start:null,
+    end:auction?end:null,
+    step:auction?step:0,
+    bids:old?.bids||[]
+  };
+
+  if(old) {
+    state.listings=state.listings.map(x=>x.id===old.id?item:x);
+  } else {
+    state.listings.unshift(item);
+  }
+
+  editingId=null;
+  save();
+  openListing(item.id);
+}
+
+/* =====================================
+   10. GRATIS SÄLJARAKADEMI
+   ===================================== */
+
+const lessons=[
+  ["Förbered företaget","Samla information om verksamhet, tillgångar och avtal."],
+  ["Värdera företaget","Förstå omsättning, vinst och vad som påverkar värdet."],
+  ["Skapa en bra annons","Beskriv verksamheten tydligt och välj relevanta bilder."],
+  ["Hantera intresserade köpare","Lär dig hur du kommunicerar och granskar intressenter."],
+  ["Budgivning och förhandling","Förstå bud, villkor och tidsfrister."],
+  ["Genomför överlåtelsen","Gå igenom avtal, tillstånd och överlämning."]
+];
+
+function academyPage() {
+  return `
+    <h1>Gratis säljarakademi</h1>
+    <p>
+      Lär dig sälja din verksamhet själv,
+      steg för steg, utan traditionell mäklare.
+    </p>
+
+    <div class="panel">
+      <h3>Din utbildning</h3>
+      <p>
+        ${state.lessons.length} av ${lessons.length}
+        lektioner klara.
+      </p>
+    </div>
+
+    <div class="grid">
+      ${lessons.map(([title,description],index)=>`
+        <div class="panel">
+          <span class="badge">Lektion ${index+1}</span>
+          <h3>${title}</h3>
+          <p>${description}</p>
+          <button class="btn ${state.lessons.includes(index)?"secondary":""}"
+            onclick="toggleLesson(${index})">
+            ${state.lessons.includes(index)?"✓ Klar":"Markera som klar"}
+          </button>
+        </div>
+      `).join("")}
+    </div>
+
+    <div class="notice">
+      Utbildningen är introducerande information
+      och ersätter inte juridisk eller ekonomisk rådgivning.
+    </div>
+  `;
+}
+
+function toggleLesson(index) {
+  if(state.lessons.includes(index)) {
+    state.lessons=state.lessons.filter(x=>x!==index);
+  } else {
+    state.lessons.push(index);
+  }
+  save();
+  render();
+}
+
+/* =====================================
+   11. ANNONSPAKET OCH REKLAM
+   ===================================== */
+
+const plans=[
+  ["Gratis","0 kr","Grundläggande företagsannons."],
+  ["Standard","199 kr","Fler möjligheter att presentera företaget."],
+  ["Gold","499 kr","Schemalagd auktion och extra synlighet."],
+  ["Ultimate","999 kr","LIVE-auktion och framhävd exponering."]
+];
+
+function plansPage() {
+  return `
+    <h1>Våra annonspaket</h1>
+    <p class="muted">
+      Föreslagna engångspriser för framtida annonsperioder.
+      Inga betalningar görs i demon.
+    </p>
+
+    <div class="grid">
+      ${plans.map(([name,price,description])=>`
+        <div class="panel">
+          <span class="badge ${name==="Ultimate"?"gold":""}">
+            ${name}
+          </span>
+          <h2>${price}</h2>
+          <p>${description}</p>
+          <button class="btn" onclick="showPage('sell')">
+            Välj paket
+          </button>
+        </div>
+      `).join("")}
+    </div>
+
+    <div class="ad">
+      <h3>Reklam på Verksamhetsmarknaden</h3>
+      <p>
+        Banker, finansieringsbolag, redovisningsbyråer
+        och andra företag kan i framtiden annonsera här.
+      </p>
+      <span class="badge">Reklamplats · Demo</span>
+    </div>
+  `;
+}
+
+/* =====================================
+   12. MITT KONTO OCH PROFILBILD
+   ===================================== */
+
+function accountPage() {
+  const own=state.listings.filter(x=>x.owner==="me");
+
+  return `
+    <h1>Mitt konto</h1>
+    <p class="muted">
+      Lokal demoprofil. Ingen riktig inloggning.
+    </p>
+
+    <div class="two">
+      <div class="panel">
+        <div class="row">
+          ${state.profile.image
+            ?`<img class="avatar" src="${state.profile.image}" alt="Profilbild">`
+            :'<div class="avatar" style="display:grid;place-items:center">👤</div>'}
+          <div>
+            <h3>${escapeHTML(state.profile.name)}</h3>
+            <span class="badge">Demokonto</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Visningsnamn</label>
+          <input id="profileName" maxlength="50"
+            value="${escapeHTML(state.profile.name)}">
+        </div>
+
+        <div class="field">
+          <label>Ändra profilbild (max 1 MB)</label>
+          <input type="file" id="profileImage"
+            accept="image/png,image/jpeg,image/webp">
+        </div>
+
+        <div class="row">
+          <button class="btn" onclick="saveProfile()">
+            Spara profil
+          </button>
+          <button class="btn secondary" onclick="removeProfileImage()">
+            Ta bort bild
+          </button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Översikt</h2>
+        <p>Mina annonser: ${own.length}</p>
+        <p>Sparade annonser: ${state.favorites.length}</p>
+        <p>Godkända demoauktioner:
+          ${Object.values(state.applications).filter(x=>x==="approved").length}
+        </p>
+
+        <label class="row">
+          <input type="checkbox"
+            ${state.npcEnabled?"checked":""}
+            onchange="setNPC(this.checked)">
+          NPC-demobud aktiverade
+        </label>
+
+        <p class="small muted">
+          NPC-bud körs bara när demosidan är öppen.
+        </p>
+      </div>
+    </div>
+
+    <h2>Mina annonser</h2>
+    <div class="grid">
+      ${own.length?own.map(item=>`
+        <div>
+          ${listingCard(item)}
+          <div class="row" style="margin-top:10px">
+            <button class="btn secondary"
+              onclick="editListing('${item.id}')">Redigera</button>
+            <button class="btn red"
+              onclick="deleteListing('${item.id}')">Ta bort</button>
+          </div>
+        </div>
+      `).join(""):"<p>Du har inga egna demoannonser ännu.</p>"}
+    </div>
+
+    <h2>Sparade företag</h2>
+    <div class="grid">
+      ${state.listings.filter(x=>state.favorites.includes(x.id))
+        .map(listingCard).join("")||"<p>Inga sparade företag.</p>"}
+    </div>
+
+    <div class="panel" style="margin-top:25px">
+      <h3>Återställ demo</h3>
+      <button class="btn secondary" onclick="resetDemo()">
+        Återställ alla demoändringar
+      </button>
+    </div>
+  `;
+}
+
+function saveProfile() {
+  const name=document.getElementById("profileName").value.trim();
+  state.profile.name=name||"Demoanvändare";
+
+  const file=document.getElementById("profileImage").files[0];
+
+  if(!file) {
+    save();
+    render();
+    return;
+  }
+
+  if(!["image/jpeg","image/png","image/webp"].includes(file.type)
+     ||file.size>1024*1024) {
+    alert("Välj JPG, PNG eller WebP under 1 MB.");
+    return;
+  }
+
+  const reader=new FileReader();
+  reader.onload=function() {
+    state.profile.image=String(reader.result);
+    save();
+    render();
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeProfileImage() {
+  state.profile.image="";
+  save();
+  render();
+}
+
+function setNPC(value) {
+  state.npcEnabled=value;
+  save();
+}
+
+function editListing(id) {
+  const item=findListing(id);
+  if(!item || item.owner!=="me") return;
+  editingId=id;
+  showPage("sell");
+}
+
+function deleteListing(id) {
+  const item=findListing(id);
+  if(!item || item.owner!=="me") return;
+  if(!confirm("Vill du ta bort din demoannons?")) return;
+
+  state.listings=state.listings.filter(x=>x.id!==id);
+  state.favorites=state.favorites.filter(x=>x!==id);
+  delete state.applications[id];
+
+  save();
+  render();
+}
+
+function resetDemo() {
+  if(!confirm("Återställa alla lokala demoändringar?")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state=initialState();
+  editingId=null;
+  showPage("home");
+}
+
+/* =====================================
+   13. SIDHANTERING
+   ===================================== */
+
+function render() {
+  const app=document.getElementById("app");
+
+  switch(currentPage) {
+    case "home":app.innerHTML=homePage();break;
+    case "explore":app.innerHTML=explorePage();break;
+    case "live":app.innerHTML=livePage();break;
+    case "detail":app.innerHTML=detailPage();break;
+    case "sell":
+      app.innerHTML=sellPage();
+      toggleAuctionFields();
+      break;
+    case "academy":app.innerHTML=academyPage();break;
+    case "plans":app.innerHTML=plansPage();break;
+    case "account":app.innerHTML=accountPage();break;
+    default:app.innerHTML=homePage();
+  }
+}
+
+/* =====================================
+   14. AUTOMATISKA UPPDATERINGAR
+   ===================================== */
+
+setInterval(()=>{
+  const countdown=document.getElementById("countdown");
+  if(countdown) {
+    const item=findListing(selectedListing);
+    if(item && item.auction) {
+      if(statusOf(item)==="ended") render();
+      else countdown.textContent=remaining(item.end);
+    }
+  }
+},1000);
+
+setInterval(npcTick,12000);
+
+/* =====================================
+   15. FRAMTIDA FUNKTIONER
+   Lägg till nya moduler här.
+   Behåll befintliga funktioner.
+   ===================================== */
+
+// Framtida moduler:
+// - Riktig kontoregistrering
+// - Säker identitetsverifiering
+// - Meddelanden mellan köpare och säljare
+// - Riktig budgivning
+// - Betalningsintegration
+// - Annonsstatistik
+// - Administratörspanel
+// - Dokumenthantering
+
+render();
+
+</script>
+</body>
+</html>
